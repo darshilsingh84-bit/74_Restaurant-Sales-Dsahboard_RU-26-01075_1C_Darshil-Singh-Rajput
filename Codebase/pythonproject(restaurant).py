@@ -1,7 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Step 1: Read CSV File
+
 
 file_name = "restaurant.csv"
 
@@ -13,7 +13,7 @@ except FileNotFoundError:
     exit()
 
 
-# Step 2: Check and Clean Data
+
 
 required_columns = ["Date", "Item", "Category", "Quantity", "Price"]
 
@@ -22,12 +22,11 @@ for col in required_columns:
         print("Error: Required column is missing.")
         exit()
 
-# Convert Quantity and Price into numbers
 
 df["Quantity"] = pd.to_numeric(df["Quantity"], errors="coerce")
 df["Price"] = pd.to_numeric(df["Price"], errors="coerce")
 
-# Find invalid rows
+
 
 for index, row in df.iterrows():
 
@@ -39,16 +38,14 @@ for index, row in df.iterrows():
         print("Warning: Row", index + 2,
               "skipped - Price must be a number.")
 
-# Remove invalid rows
+
 
 df = df.dropna(subset=["Quantity", "Price"])
 
-# Step 3: Calculate Sales
+
 
 df["Sales"] = df["Quantity"] * df["Price"]
 
-
-# Step 4: Show Menu
 
 print("\n===== RESTAURANT SALES DASHBOARD =====")
 
@@ -59,7 +56,6 @@ print("3. Top Items and Daily Sales")
 choice = input("Enter your choice: ")
 
 
-# Step 5: Sales by Category
 
 if choice == "1":
 
@@ -74,7 +70,7 @@ if choice == "1":
 
     print("Total sales: Rs.", int(total_sales))
 
-    # Graph
+
 
     category_sales.plot(kind="bar")
 
@@ -85,7 +81,6 @@ if choice == "1":
     plt.show()
 
 
-# Step 6: Top Items
 
 elif choice == "2":
 
@@ -106,7 +101,7 @@ elif choice == "2":
           top_revenue,
           "(Rs.", int(item_revenue[top_revenue]), ")")
 
-    # Graph
+
 
     item_quantity.plot(kind="bar")
 
@@ -117,7 +112,6 @@ elif choice == "2":
     plt.show()
 
 
-# Step 7: Top Items and Daily Sales
 
 elif choice == "3":
 
@@ -136,7 +130,7 @@ elif choice == "3":
           top_revenue,
           "(Rs.", int(item_revenue[top_revenue]), ")")
 
-    # Daily Sales
+
 
     daily_sales = df.groupby("Date")["Sales"].sum()
 
@@ -145,13 +139,13 @@ elif choice == "3":
     for date, sales in daily_sales.items():
         print(date, ": Rs.", int(sales))
 
-    # Best Day
+
 
     best_day = daily_sales.idxmax()
 
     print("Best day:", best_day)
 
-    # Graph
+  
 
     daily_sales.plot(kind="bar")
 
